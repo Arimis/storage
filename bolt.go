@@ -49,7 +49,8 @@ func (db *DB) Start(config *viper.Viper) error {
 	}
 	db.DB = newDB
 
-	client, err := mqtt.NewClient(config.GetString("MQTT.Listen"))
+	client, err := mqtt.NewClient("tcp://127.0.0.1:1883")
+
 	if err != nil {
 		return err
 	}
@@ -69,7 +70,6 @@ func (db *DB) Start(config *viper.Viper) error {
 		db.Log("Bolt store subscribed to topic: " + topic)
 	}
 
-	fmt.Println("done starting store")
 	return nil
 }
 
