@@ -49,7 +49,12 @@ func (db *DB) Start(config *viper.Viper) error {
 	}
 	db.DB = newDB
 
-	client, err := mqtt.NewClient("tcp://127.0.0.1:1883")
+	var userString string
+	if config.IsSet("MQTT.User") {
+		userString = config.GetString("MQTT.User") + ":" +
+			config.GetString("MQTT.Pass") + "@"
+	}
+	client, err := mqtt.NewClient("tcp://" + userString + "127.0.0.1:1883")
 
 	if err != nil {
 		return err
